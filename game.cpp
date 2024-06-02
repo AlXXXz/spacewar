@@ -1,5 +1,5 @@
-#include "../headers/game.hpp"
-#include "../headers/player.hpp"
+#include "game.hpp"
+#include "player.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -10,17 +10,22 @@ Game::Game() : window(sf::VideoMode(800, 600), "Spacewar") {
     // player.setScale(0.5, 1);
     // player.setOrigin(50, 50);
 
+    isMovingUp = false;
+    isMovingDown = false;
+    isMovingLeft = false;
+    isMovingRight = false; 
+
     player.setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
 }
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
-    if (key == sf::Keyboard::W)
+    if (key == sf::Keyboard::W || key == sf::Keyboard::Up)
         isMovingUp = isPressed;
-    else if (key == sf::Keyboard::S)
+    else if (key == sf::Keyboard::S || key == sf::Keyboard::Down)
         isMovingDown = isPressed;
-    else if (key == sf::Keyboard::A)
+    else if (key == sf::Keyboard::A || key == sf::Keyboard::Left)
         isMovingLeft = isPressed;
-    else if (key == sf::Keyboard::D)
+    else if (key == sf::Keyboard::D || key == sf::Keyboard::Right)
         isMovingRight = isPressed;
 }
 
@@ -62,7 +67,23 @@ void Game::update(sf::Time deltaTime) {
 
     movement += inertia;
 
-    std::cout << "(" << player.getPosition().x << ":" << player.getPosition().y << ") " << movement.x << " " << movement.y << " " << inertia.x << " " << inertia.y << std::endl;
+    if (player.getPosition().x >= window.getSize().x)
+        player.setPosition(0, player.getPosition().y);
+
+    else if (player.getPosition().x <= 0)
+        player.setPosition(window.getSize().x, player.getPosition().y);
+
+
+
+    if (player.getPosition().y >= window.getSize().y)
+        player.setPosition(player.getPosition().x, 0);
+
+    else if (player.getPosition().y <= 0)
+        player.setPosition(player.getPosition().x, window.getSize().y);
+
+    std::cout << window.getSize().x << " " << isMovingUp << " " << "( X = " << player.getPosition().x << " : Y = " << player.getPosition().y << ")" << std::endl;
+
+    // std::cout << "(" << player.getPosition().x << ":" << player.getPosition().y << ") " << movement.x << " " << movement.y << " " << inertia.x << " " << inertia.y << std::endl;
 
     player.move(movement * deltaTime.asSeconds());
 }

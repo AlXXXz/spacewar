@@ -1,4 +1,4 @@
-#include "../headers/player.hpp"
+#include "player.hpp"
 
 Player::Player() : shape(50.f, 3) {
     shape.setFillColor(sf::Color::Cyan);
