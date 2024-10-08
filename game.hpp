@@ -1,8 +1,11 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "bullet.hpp"
 
 class Game {
+    //friend class Bullet;
+
     sf::RenderWindow window;
     sf::Event event;
 
@@ -19,6 +22,7 @@ class Game {
     void processEvents();
     void update(sf::Time deltaTime);
     void render();
+
 
 public:
     Game();
