@@ -1,5 +1,5 @@
-#include "../headers/game.hpp"
-#include "../headers/player.hpp"
+#include "game.hpp"
+#include "player.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -9,6 +9,11 @@ Game::Game() : window(sf::VideoMode(800, 600), "Spacewar") {
     
     // player.setScale(0.5, 1);
     // player.setOrigin(50, 50);
+
+    isMovingDown = false;
+    isMovingUp = false;
+    isMovingLeft = false;
+    isMovingRight = false;
 
     player.setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
 }
@@ -54,13 +59,13 @@ void Game::update(sf::Time deltaTime) {
     if (isMovingUp) {
         movement.y -= player.moveSpeed * cos(player.getRotation() * M_PI / 180);
         movement.x += player.moveSpeed * sin(player.getRotation() * M_PI / 180);
-        inertia = movement;
+        //inertia = movement;
     }
 
     if (isMovingDown) 
         movement.y += player.moveSpeed;
 
-    movement += inertia;
+    //movement += inertia;
 
     std::cout << "(" << player.getPosition().x << ":" << player.getPosition().y << ") " << movement.x << " " << movement.y << " " << inertia.x << " " << inertia.y << std::endl;
 

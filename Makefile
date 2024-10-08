@@ -1,13 +1,13 @@
 CC=g++
 PROJECT=spacewar
-SRC=src/main.cpp src/game.cpp src/player.cpp
+SRC=main.cpp game.cpp player.cpp
 OBJ=$(SRC:.cpp=.o)
 SFML_FLAGS=-lsfml-graphics -lsfml-window -lsfml-system
 
 .PHONY: all
 
 all: $(SRC) $(PROJECT)
-	rm src/*.o
+	rm *.o
 
 $(PROJECT): $(OBJ)
 	$(CC) $(OBJ) -o $(PROJECT) $(SFML_FLAGS)
