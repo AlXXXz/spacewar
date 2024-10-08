@@ -8,7 +8,7 @@ class Bullet : public sf::Transformable, public sf::Drawable {
 
 public:
     float moveSpeed;
-    int direction;
+    float direction;
     sf::Clock lifeTime;
-    Bullet(int x, int y, float speed = 200.f /*, int dir*/);
+    Bullet(int x, int y, float dir, float speed = 200.f /*, int dir*/);
 };

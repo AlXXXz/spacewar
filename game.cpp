@@ -29,7 +29,7 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
         isMovingRight = isPressed;
 
     if (key == sf::Keyboard::Space) {
-        player.bullets.push_back(Bullet(player.getPosition().x, player.getPosition().y));
+        player.bullets.push_back(Bullet(player.getPosition().x, player.getPosition().y, player.getRotation()));
     }
 }
 
@@ -69,17 +69,12 @@ void Game::update(sf::Time deltaTime) {
     if (isMovingDown) 
         movement.y += player.moveSpeed;
 
-    float bulletRot, bulletRotY;
-
-    bulletRot = player.getRotation();
+    
 
     for (int i = 0; i < (int)player.bullets.size(); i++) {
-        /*
-            Доработать: Пули следуют за кораблём
-        */
         player.bullets[i].move(
-            -(player.bullets[i].moveSpeed * sin(-bulletRot * M_PI / 180)) * deltaTime.asSeconds(),
-            -(player.bullets[i].moveSpeed * cos(-bulletRot * M_PI / 180)) * deltaTime.asSeconds()
+            -(player.bullets[i].moveSpeed * sin(-player.bullets[i].direction * M_PI / 180)) * deltaTime.asSeconds(),
+            -(player.bullets[i].moveSpeed * cos(-player.bullets[i].direction * M_PI / 180)) * deltaTime.asSeconds()
             );
         auto iter = player.bullets.cbegin();
         if (player.bullets[i].lifeTime.getElapsedTime().asMilliseconds() >= 1500) {
@@ -88,11 +83,6 @@ void Game::update(sf::Time deltaTime) {
         }
     }
     
-    // for (auto bull : player.bullets) {
-    //     if (bull.lifeTime.getElapsedTime().asMilliseconds() >= 3000) 
-    // }
-    
-
     //movement += inertia;
 
     //std::cout << "(" << player.getPosition().x << ":" << player.getPosition().y << ") " << movement.x << " " << movement.y << " " << inertia.x << " " << inertia.y << std::endl;
