@@ -3,9 +3,17 @@
 #include <SFML/Graphics.hpp>
 #include "bullet.hpp"
 
+/**
+ * @name Game
+ * @brief Главный класс игры, отвечающий за всю внутриигровую логику
+ * 
+ * @details Класс отвечает за:
+ * 1. Создание и обновление окна
+ * 2. Отрисовку
+ * 3. Отслеживанием ввода
+ * 4. Обработкой событий  
+ */
 class Game {
-    //friend class Bullet;
-
     sf::RenderWindow window;
     sf::Event event;
 
@@ -18,9 +26,21 @@ class Game {
 
     float PlayerSpeed = 100;
 
+    /**
+     * @brief Отслеживание ввода 
+     */
     void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+    /**
+     * @brief обработка событий 
+     */
     void processEvents();
+    /**
+     * @brief Обновление игрового процесса 
+     */
     void update(sf::Time deltaTime);
+    /**
+     * @brief Отрисовка игры
+     */
     void render();
 
 

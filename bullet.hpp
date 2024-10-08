@@ -3,6 +3,9 @@
 #include <SFML/Graphics.hpp>
 #include "bullet.hpp"
 
+/**
+ * @brief Класс реализующий выстрел
+ */
 class Bullet : public sf::Transformable, public sf::Drawable {
     friend class Game;
 

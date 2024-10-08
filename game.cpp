@@ -1,3 +1,8 @@
+/*
+TODO: Реализовать движение игрока внутри класса Player
+*/
+
+
 #include "game.hpp"
 #include "player.hpp"
 #include <iostream>

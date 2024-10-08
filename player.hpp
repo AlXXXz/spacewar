@@ -4,6 +4,12 @@
 #include <vector>
 #include "bullet.hpp"
 
+/**
+ * @name Player
+ * @brief Класс игрока
+ * 
+ * TODO: Реализовать движение игрока внутри класса Player
+ */
 class Player : public sf::Transformable, public sf::Drawable {
     
     int health;
