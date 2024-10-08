@@ -27,6 +27,10 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
         isMovingLeft = isPressed;
     else if (key == sf::Keyboard::D)
         isMovingRight = isPressed;
+
+    if (key == sf::Keyboard::Space) {
+        player.bullets.push_back(Bullet(player.getPosition().x, player.getPosition().y));
+    }
 }
 
 void Game::processEvents() {
@@ -65,9 +69,37 @@ void Game::update(sf::Time deltaTime) {
     if (isMovingDown) 
         movement.y += player.moveSpeed;
 
+    float bulletRot, bulletRotY;
+
+    bulletRot = player.getRotation();
+
+    for (int i = 0; i < (int)player.bullets.size(); i++) {
+        /*
+            Доработать: Пули следуют за кораблём
+        */
+        player.bullets[i].move(
+            -(player.bullets[i].moveSpeed * sin(-bulletRot * M_PI / 180)) * deltaTime.asSeconds(),
+            -(player.bullets[i].moveSpeed * cos(-bulletRot * M_PI / 180)) * deltaTime.asSeconds()
+            );
+        auto iter = player.bullets.cbegin();
+        if (player.bullets[i].lifeTime.getElapsedTime().asMilliseconds() >= 1500) {
+            //player.bullets.pop_back();
+            player.bullets.erase(iter);
+        }
+    }
+    
+    // for (auto bull : player.bullets) {
+    //     if (bull.lifeTime.getElapsedTime().asMilliseconds() >= 3000) 
+    // }
+    
+
     //movement += inertia;
 
-    std::cout << "(" << player.getPosition().x << ":" << player.getPosition().y << ") " << movement.x << " " << movement.y << " " << inertia.x << " " << inertia.y << std::endl;
+    //std::cout << "(" << player.getPosition().x << ":" << player.getPosition().y << ") " << movement.x << " " << movement.y << " " << inertia.x << " " << inertia.y << std::endl;
+
+    //std::cout << elapsed.asMilliseconds() << std::endl;
+
+    std::cout << player.getRotation() << std::endl;
 
     player.move(movement * deltaTime.asSeconds());
 }
@@ -75,6 +107,9 @@ void Game::update(sf::Time deltaTime) {
 void Game::render() {
     window.clear();
     window.draw(player);
+    for (int i = 0; i < (int)player.bullets.size(); i++) {
+        window.draw(player.bullets[i]);
+    }
     window.display();
 }
 

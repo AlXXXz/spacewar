@@ -1,6 +1,6 @@
 CC=g++
 PROJECT=spacewar
-SRC=main.cpp game.cpp player.cpp
+SRC=main.cpp game.cpp player.cpp bullet.cpp
 OBJ=$(SRC:.cpp=.o)
 SFML_FLAGS=-lsfml-graphics -lsfml-window -lsfml-system
 
