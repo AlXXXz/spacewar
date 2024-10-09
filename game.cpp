@@ -8,6 +8,8 @@ TODO: Реализовать движение игрока внутри клас
 #include <iostream>
 #include <cmath>
 
+#define DEBUG_SHIT 1
+
 Player player;
 
 Game::Game() : window(sf::VideoMode(800, 600), "Spacewar") {
@@ -24,17 +26,24 @@ Game::Game() : window(sf::VideoMode(800, 600), "Spacewar") {
 }
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
-    if (key == sf::Keyboard::W)
-        isMovingUp = isPressed;
-    else if (key == sf::Keyboard::S)
-        isMovingDown = isPressed;
-    else if (key == sf::Keyboard::A)
-        isMovingLeft = isPressed;
-    else if (key == sf::Keyboard::D)
-        isMovingRight = isPressed;
+#if DEBUG_SHIT
+    if (key == sf::Keyboard::Z && player.getHealth() > 0)
+        player.setHealth(10);
+#endif
 
-    if (key == sf::Keyboard::Space) {
-        player.bullets.push_back(Bullet(player.getPosition().x, player.getPosition().y, player.getRotation()));
+    if (player.getHealth() > 0) {
+        if (key == sf::Keyboard::W)
+            isMovingUp = isPressed;
+        else if (key == sf::Keyboard::S)
+            isMovingDown = isPressed;
+        else if (key == sf::Keyboard::A)
+            isMovingLeft = isPressed;
+        else if (key == sf::Keyboard::D)
+            isMovingRight = isPressed;
+
+        if (key == sf::Keyboard::Space) {
+            player.bullets.push_back(Bullet(player.getPosition().x, player.getPosition().y, player.getRotation()));
+        }
     }
 }
 
@@ -100,11 +109,34 @@ void Game::update(sf::Time deltaTime) {
 }
 
 void Game::render() {
+    
+
     window.clear();
-    window.draw(player);
+    if (player.getHealth() > 0)
+        window.draw(player);
     for (int i = 0; i < (int)player.bullets.size(); i++) {
         window.draw(player.bullets[i]);
     }
+
+#if DEBUG_SHIT
+    sf::Font font;
+    sf::Text text;
+    if (!font.loadFromFile("arial.ttf")) {
+        std::cout << "Error while loading font\n";
+    }
+    text.setFont(font);    
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::White);
+    text.setString("Pos: " + std::to_string(player.getPosition().x) + " " 
+        + std::to_string(player.getPosition().y) + "\nRotation: " 
+        + std::to_string(player.getRotation()) + "\nBullets: " 
+        + std::to_string(player.bullets.size()) + "\nPlayer's health: "
+        + std::to_string(player.getHealth()));
+    //text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    window.draw(text);
+    window.draw(text);
+#endif
+
     window.display();
 }
 

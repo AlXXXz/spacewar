@@ -11,7 +11,7 @@ Player::Player() : shape(50.f, 3) {
 }
 
 void Player::setHealth(int value) {
-    health = value;
+    health -= value;
 }
 
 int Player::getHealth() {
